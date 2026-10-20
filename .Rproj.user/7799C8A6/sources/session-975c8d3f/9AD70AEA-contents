@@ -3,15 +3,15 @@ title: "Práctica 1. Importación de datos"
 author: "Marino Fernández Pérez"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: true
-    toc_depth: 3
-    number_sections: true
   html_document:
     echo: true
     number_sections: true
     theme: lumen
     toc: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
   html_notebook:
     echo: true
     number_sections: true
@@ -174,15 +174,15 @@ pacman::p_load(
 
 ```
 
-# Práctica 1
+Práctica 1
 
 En esta primera práctica se pretende reforzar el aprendizaje obtenido en las sesiones teóricas respecto a la importación y el tratamiento inicial de datos procedentes de diferentes ficheros de datos (CSV, JSON, Excel...). Tras importarlos, se aplicarán técnicas de visualización para extraer la máxima información posible de los distintos datasets.
 
-## DFP1_11122015 124700.csv
+# DFP1_11122015 124700.csv
 
-### Importación del fichero
+## Importación del fichero
 
-#### Usar la herramienta de importación para previsualizar el resultado final. Compara las opciones base y readr
+### Usar la herramienta de importación para previsualizar el resultado final. Compara las opciones base y readr
 
 A simple vista, se detectan dos diferencias principales, especialmente porque cada opción utiliza una herramienta distinta a la hora de leer los ficheros.
 
@@ -190,7 +190,7 @@ Por un lado, **Import Dataset (base)** ha detectado automáticamente el separado
 
 Por otro lado, una vez seleccionado el separador correcto para la importación con `readr`, se ven claras diferencias respecto al formato que se ha utilizado para codificar la hora, que en `base` es **chr** y en `readr` es **hms**.
 
-#### Leer el fichero con read.csv y el parámetro stringsAsFactors=F.
+### Leer el fichero con read.csv y el parámetro stringsAsFactors=F.
 
 ```{r} 
 # ruta relativa del fichero fname <- "data/DFP1_11122015 124700.csv"
@@ -200,7 +200,7 @@ Deposito <- read.csv(file = fname, stringsAsFactors = FALSE, sep = "\t")
 head(Deposito)
 ```
 
-#### Convertir fecha y hora con as.POSIXlt y as.hms (hms library).
+### Convertir fecha y hora con as.POSIXlt y as.hms (hms library).
 
 Con la función `str()` mostramos un resumen de las distintas variables que lo componen y visualizamos el tipo de dato de cada una de ellas, especialmente, para identificar el tipo de `FECHA` y `HORA`.
 
@@ -226,7 +226,7 @@ Tras hacer la conversion, verificamos que los cambios se han aplicado correctame
 ```{r} 
 str(Deposito)
 ```
-#### Almacenar con save en una carpeta con nombre results dentro de la carpeta data.
+### Almacenar con save en una carpeta con nombre results dentro de la carpeta data.
 
 Desde R, creamos una subcarpeta dentro de **results** con `dir.create` y posteriormente, guardamos el nuevo dataset con las horas y fechas en formato correcto.
 
@@ -235,7 +235,7 @@ dir.create("./data/results", showWarnings = F)
 save(Deposito, file = "./data/results/Deposito.RData")
 ```
 
-### Inspección de los datos
+## Inspección de los datos
 
 Al igual que lo usamos antes, `str()` muestra por consola un resumen del fichero, indicando las dimensiones, los nombres de las variables, sus tipos y algunos de sus valores.
 
@@ -260,10 +260,10 @@ tail(Deposito)
 Segun ChatGPT, da error por la configuración de la plantilla. De todas formas, `summary()` mostraría informacion sobre cada variable según su tipo. Por ejemplo, para **Altura** indicaría metricas estadisticas como la media o la mediana.
 
 ```{r}
-summary(Deposito)
+# summary(Deposito)
 ```
 
-## Transactions from a Bakery (Kaggle)
+# Transactions from a Bakery (Kaggle)
 
 Descargamos el fichero desde R a partir de la url de descarga. Para ello, se ha usado `download.file()` y `unzip()`, ya que la url contiene un .zip compuesto por dos ficheros .csv.
 
@@ -273,7 +273,7 @@ download.file(url, destfile = "data/bakery.zip", mode = "wb")
 unzip("data/bakery.zip", exdir = "data")
 ```
 
-### Importación del fichero
+## Importación del fichero
 
 ```{r}
 library(readr)
@@ -298,7 +298,7 @@ dir.create("./data/results", showWarnings = F)
 save(BreadBasket, file = "./data/results/BreadBasket.RData")
 ```
 
-### Inspección de los datos
+## Inspección de los datos
 
 En este caso, contamos con un fichero de datos compuesto por 20507 observaciones y 5 variables que los caracterizan.
 
@@ -322,9 +322,9 @@ Utilizando `summary()`, descatamos que no existe instancias vacias para los **It
 ```{r}
 summary(BreadBasket)
 ```
-## SPSS PsychBike.sav
+# SPSS PsychBike.sav
 
-### Importación del fichero
+## Importación del fichero
 
 Para trabajar con archivos .sav, es necesario utilizar la libreria `haven`, que permite leer este tipo directamente.
 
@@ -341,7 +341,7 @@ Finalmente, guardamos el dataset como hemos hecho en los apartados anteriores.
 save(PsychBike, file = "data/results/PsychBike.RData")
 ```
 
-### Inspección de los datos
+## Inspección de los datos
 
 En este caso, contamos con un fichero de datos compuesto por 2355 observaciones y 6 variables que los caracterizan.
 Cabe destacar que `hour` se ha importado correctamente como `hss`. 
@@ -363,11 +363,13 @@ Con `tail()` se visualizan, por defecto, las últimas 6 filas del conjunto de da
 tail(PsychBike)
 ```
 
+Error por lo mismo de antes (summary).
+
 ```{r}
-summary(PsychBike)
+## summary(PsychBike)
 ```
 
-## iris.zip
+# iris.zip
 
 Para descargar y guardar el dataset, se repite el mismo procedimiento que se hizo con **Bakery**.
 
@@ -376,7 +378,7 @@ url <- "https://archive.ics.uci.edu/static/public/53/iris.zip"
 download.file(url, destfile = "data/iris.zip", mode = "wb")
 ```
 
-### Descomprimir el fichero
+## Descomprimir el fichero
 
 Para descomprimir el fichero, se utiliza la funcion `unzip()`, con el parámetro **exdir** para indicar el lugar donde se descompondrá.
 
@@ -384,11 +386,11 @@ Para descomprimir el fichero, se utiliza la funcion `unzip()`, con el parámetro
 unzip("data/iris.zip", exdir = "data")
 ```
 
-## iris.data
+# iris.data
 
-### Importación del fichero
+## Importación del fichero
 
-#### Utiliza la funcion read_table para importar los datos.
+### Utiliza la funcion read_table para importar los datos.
 
 Debido al formato de los datos en el dataset **iris.data**, especificamos la coma como separador.
 
@@ -404,7 +406,7 @@ Verificamos que se ha cargado como se esperaba.
 ```{r}
 head(iris)
 ```
-#### Cambia el nombre de las columnas por las que corresponda a la base datos (mirar la información en la página web).
+### Cambia el nombre de las columnas por las que corresponda a la base datos (mirar la información en la página web).
 
 Modificamos el nombre de las columnas machacando el nombre actual de cada una de ellas, que se obtiene mediante la función `colnames()`.
 
@@ -418,13 +420,13 @@ colnames(iris) <- c(
 head(iris)
 ```
 
-#### Guarda el data frame con save en la carpeta results.
+### Guarda el data frame con save en la carpeta results.
 
 ```{r}
 save(iris, file = "data/results/iris")
 ```
 
-### Inspección de los datos
+## Inspección de los datos
 
 En este caso, contamos con un fichero de datos compuesto por 150 observaciones y 5 variables que los caracterizan.
 Todas ellas son numéricas a excepción de `species`, que son conjuntos de caracteres. 
@@ -453,14 +455,14 @@ Finalmente, la variable species contiene 3 categorías diferentes, sin cadenas v
 ```{r}
 summary(iris)
 ```
-## FileCodificado.json
+# FileCodificado.json
 
-### Importar el fichero FileCodificado.json
+## Importar el fichero FileCodificado.json
 
 
-#### Abrir el fichero FileCodificado.json con un editor de texto (el de RStudio vale) para ver qué contiene. Comprobaremos que se puede leer e interepretar con facilidad.
+### Abrir el fichero FileCodificado.json con un editor de texto (el de RStudio vale) para ver qué contiene. Comprobaremos que se puede leer e interepretar con facilidad.
 
-#### Importar el fichero a R con read_json. Observar la importancia del parámetro simplifyVector.
+### Importar el fichero a R con read_json. Observar la importancia del parámetro simplifyVector.
 
 Segun el valor booleando de `simplifyVector`:
 
@@ -487,28 +489,32 @@ La diferencia es clara con simplifyVector. Sin el, tenemos un objeto compuesto p
 De esta manera, es mucho más sencillo acceder a los datos.
 
 
-#### Almacenar los resultados en FileCodificado.RData en la carpeta results.
+### Almacenar los resultados en FileCodificado.RData en la carpeta results.
 
 ```{r}
 FileCodificado <- read_json(filename, simplifyVector = TRUE) 
 save(FileCodificado, file = "data/results/FileCodificado.RData")
 ```
 
-### Inspección de los datos
+## Inspección de los datos
+
+Mediante las funciones `dim()` y `str()` comprobamos que el conjunto de datos contiene 83 observaciones y 22 variables, de tipo numérico entero (int), numérico decimal (num) y carácter (chr). Estas recogen información sobre vehículos, conductores y características geográficas y económicas.
 
 ```{r}
 dim(FileCodificado)
 ```
 
-
 ```{r}
 str(FileCodificado)
 ```
+
+A simple vista, con `head()` y `tail()`, en ambos casos, las variables mostradas tienen valores idénticos, aunque esto no indica que estas características no pueden contar con diferencias en el conjunto completo.
 
 ```{r}
 head(FileCodificado)
 tail(FileCodificado)
 ```
+Con `summary()` se rectifica lo dicho anteriormente y se confirma que varias variables, como **Carburante**, **Potencia**, **Unidades_Matriculadas** y **Antigüedad**, tienen el mismo valor en todas las observaciones.
 
 ```{r}
 summary(FileCodificado)
