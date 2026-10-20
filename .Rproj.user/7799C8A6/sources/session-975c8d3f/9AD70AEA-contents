@@ -529,13 +529,9 @@ library(jsonlite)
 
 filename <- "data/iris_json.json"
 
-# Importación con read_json
 iris_read <- read_json(filename)
-
-# Importación con fromJSON
 iris_from <- fromJSON(filename)
 
-# Comparación
 class(iris_read)
 class(iris_from)
 

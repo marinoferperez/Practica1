@@ -515,3 +515,26 @@ Con `summary()` se rectifica lo dicho anteriormente y se confirma que varias var
 ```{r}
 summary(FileCodificado)
 ```
+
+# iris_json.json
+
+## Importación 
+
+La diferencia es muy similar a la vista con simplifyVector.
+
+Con `read_json` se obtiene una estructura de listas que respeta el JSON, mientras que con `fromJSON` se obtiene un **dataframe**.
+
+```{r}
+library(jsonlite)
+
+filename <- "data/iris_json.json"
+
+iris_read <- read_json(filename)
+iris_from <- fromJSON(filename)
+
+class(iris_read)
+class(iris_from)
+
+str(iris_read)
+str(iris_from)
+```
