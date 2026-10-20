@@ -251,7 +251,7 @@ La función `head()` muestra, por defecto, las 6 primeras instancias del dataset
 head(Deposito)
 ```
 
-Con `tail()` se visualizan, por defecto, las últimas 6 filas del conjunto de datos.
+Con `tail()` se visualizan, por defecto, las últimas 6 filas del conjunto de datos. A simple vista, los datos parecen estar ordenados ya que en estas últimas, si se compara con las 6 primeras, se tienen las temperaturas más altas, las alturas más altas, y la hora más adelantada.
 
 ```{r}
 tail(Deposito)
@@ -265,15 +265,63 @@ summary(Deposito)
 
 ## Transactions from a Bakery (Kaggle)
 
-Descargamos el fichero desde R
+Descargamos el fichero desde R a partir de la url de descarga. Para ello, se ha usado `download.file()` y `unzip()`, ya que la url contiene un .zip compuesto por dos ficheros .csv.
 
 ```{r}
 url <- "https://www.kaggle.com/api/v1/datasets/download/akashdeepkuila/bakery"
-download.file(url, destfile = "/data", mode = "wb")
+download.file(url, destfile = "data/bakery.zip", mode = "wb")
+unzip("data/bakery.zip", exdir = "data")
 ```
+
 ### Importación del fichero
 
+```{r}
+library(readr)
+
+filename <- "data/bakery_sales_revised.csv"
+BreadBasket <- read.csv(filename)
+
+str(BreadBasket)
+```
+Tras importar el dataset con `read.csv`, podemos ver que la variable `date_time`, que representa la fecha y hora, utiliza **character**, que no representa ni la fecha ni la hora.
+
+Para modificarla, volvemos a utilizar la codificacion `as.POSIXlt` del apartado anterior para convertir la variable `date_time` al formato adecuado.
+
+```{r}
+BreadBasket$date_time <- as.POSIXlt(BreadBasket$date_time, format = "%m/%d/%Y %H:%M")
+str(BreadBasket)
+```
+El formato de la fecha y hora ya se corresponde con el correcto. Una vez procesado el dataset, guardamos esta nueva version.
+
+```{r}
+dir.create("./data/results", showWarnings = F)
+save(BreadBasket, file = "./data/results/BreadBasket.RData")
+```
+
 ### Inspección de los datos
+
+En este caso, contamos con un fichero de datos compuesto por 20507 observaciones y 5 variables que los caracterizan.
+
+```{r}
+str(BreadBasket)
+```
+La función `head()` muestra, por defecto, las 6 primeras instancias del dataset.
+
+```{r}
+head(BreadBasket)
+```
+
+Con `tail()` se visualizan, por defecto, las últimas 6 filas del conjunto de datos. A simple vista, las transacciones están ordenadas de menor a mayor id.
+
+```{r}
+tail(BreadBasket)
+```
+
+Utilizando `summary()`, descatamos que no existe instancias vacias para los **Items**.
+
+```{r}
+summary(BreadBasket)
+```
 
 ## SPSS PsychBike.sav
 

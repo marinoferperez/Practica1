@@ -1,2 +1,0 @@
-"0","url <- ""https://www.kaggle.com/api/v1/datasets/download/akashdeepkuila/bakery"""
-"0","download.file(url, destfile = ""/data"", mode = ""wb"")"
