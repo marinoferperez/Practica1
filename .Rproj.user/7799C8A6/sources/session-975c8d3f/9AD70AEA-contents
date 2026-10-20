@@ -1,0 +1,282 @@
+---
+title: "Práctica 1. Importación de datos"
+author: "Marino Fernández Pérez"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+  html_document:
+    echo: true
+    number_sections: true
+    theme: lumen
+    toc: true
+  html_notebook:
+    echo: true
+    number_sections: true
+    toc: true
+  bookdown::pdf_document2:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    figure_caption: "Figura" # Referencias en castellano
+    table_caption: "Tabla"
+  bookdown::html_document2:
+    echo: true
+    number_sections: true
+    theme: spacelab
+    toc: true
+    figure_caption: "Figura"
+    table_caption: "Tabla"
+always_allow_html: true
+params:
+  lang: ES
+lang: "`r switch(params$lang, ES = 'es-ES', EN = 'en-US')`"
+subtitle: "Introducción a la Ciencia de Datos. Máster en Ciencia de Datos- UV"
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabla '
+    eq: 'Ecuación '
+    thm: 'Teorema '
+    lem: 'Lema '
+    def: 'Definición '
+    cor: 'Corolario '
+    prp: 'Proposición '
+    exm: 'Ejemplo '
+    exr: 'Ejercicio '
+    proof: 'Demostración. '
+    remark: 'Nota: '
+    solution: 'Solución. '
+---
+
+```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F}
+
+
+# CONFIGURACIÓN GENERAL
+library(knitr)
+options(width = 100)
+
+# Opciones generales de los chucks. Se utilizarán salvo cambios en el chunk
+opts_chunk$set(echo=F, message = F, error = F, warning = F, comment = NA, fig.align = 'center', dpi = 200, tidy = F, cache.path = '.cache/', fig.path = './figura/')
+
+# Opciones generales de dígitos cuando se incluyen tablas
+#options(xtable.type = 'html')
+knit_hooks$set(inline = function(x) {
+  
+  if(is.numeric(x)) {
+    round(x, getOption('digits'))
+  } else {
+    paste(as.character(x), collapse = ', ')
+  }
+})
+#knit_hooks$set(plot = knitr:::hook_plot_html)
+```
+
+```{r, message=FALSE}
+# Asegúrate que el paquete "pacman" está instalado
+if (!require("pacman")) install.packages("pacman")
+
+```
+
+```{r,results=FALSE}
+
+# Paquetes disponibles desde CRAN
+#################################
+pacman::p_load(
+     
+     ###############
+     # Creación de libros y 
+     bookdown,
+     
+     # Manejo de archivos y proyecto 
+     ###############################
+     here,     # describir ruta de archivo dentro de la carpeta principal del proyecto
+     rio,      # importación/exportación de múltiples tipos de datos
+     openxlsx, # importación/exportación de libros con múltiples hojas de excel
+     
+     # Manejo e instalación de paquetes
+     ##################################
+     pacman,   # instalación/carga de paquetes
+     renv,     # manejo de versiones de paquetes para trabajar con grupos colaborativos.
+     remotes,  # instalación de paquetes desde github
+     
+     # Manejo general de datos
+     #########################
+     tidyverse,    # incluye múltiples paquetes para el tratamiento de datos en formato tidy y presentación de los mismos.
+          #dplyr,      # manejo de datos
+          #tidyr,      # manejo de datos
+          #ggplot2,    # visualización de datos
+          #stringr,    # trabajo con cadenas y caracteres
+          #forcats,    # trabajo con factores
+          #lubridate,  # trabajo con fechas
+          #purrr       # iteraciones y trabajo con listas
+     linelist,     # limpiar linelists
+     naniar,       # trabajo con valores perdidos
+     
+     # Estadística  
+     ############
+     janitor,      # tablas y limpieza de datos
+     gtsummary,    # hacer tablas descriptivas con valores estadísticos
+     rstatix,      # realización rápida de test estadísticos y tablas descriptivas
+     broom,        # pasar a formato tidy los resultados de las regresiones
+     lmtest,       # realizar test de likelihood-ratio
+    # easystats,
+    # parameters, # alternativa para pasar a formato tidy los resultados de las regresiones 
+    # see,        # alternativa para visualizar forest plots 
+     
+     # plots - general
+     #################
+     #ggplot2,         # incluido en tidyverse
+     cowplot,          # combinar plots  
+     # patchwork,      # alternativa para combinar plots    
+     RColorBrewer,     # escalas de color
+     ggnewscale,       # para añadir capas de color adicionales
+     
+     # plots - tipos específicos
+     ########################
+     DiagrammeR,       # diagramas empleando lenguaje DOT
+#     incidence2,       # curvas epidémicas
+#     gghighlight,      # destacar un subgrupo
+     ggrepel,          # etiquetas inteligentes (smart labels)
+     plotly,           # gráficos interactivos
+     gganimate,        # gráficos animados
+
+     
+     # gis
+     ######
+     # sf,               # manejo de datos espaciales usando el formato Simple Features
+     # tmap,             # producción sencilla de mapas, tanto estáticos como interactivos
+     # OpenStreetMap,    # añadir una base con un mapa de OSM a un mapa en ggplot
+     # spdep,            # estadística espacial
+     
+     # reportes rutinarios
+     #################
+     rmarkdown,        # producción de archivos PDF, Word, Powerpoint y HTML
+     reportfactory,    # auto-organización de los trabajos realizados en R Markdown 
+     officer,          # powerpoints
+     
+     # dashboards
+     ############
+     flexdashboard,    # convierte código de R Markdown en un dashboard
+     shiny,            # aplicaciones web interactivas
+
+     # tablas for para presentaciones
+     #########################
+     knitr,            # generación de reportes y tablas HTML con R Markdown 
+     flextable        # tablas HTML tables
+     #DT,              # tablas HTML (alternativa)
+     #gt,              # tablas HTML (alternativa)
+     #huxtable,        # tablas HTML (alternativa) 
+     
+)
+
+```
+
+# Práctica 1
+
+En esta primera práctica se pretende reforzar el aprendizaje obtenido en las sesiones teóricas respecto a la importación y el tratamiento inicial de datos procedentes de diferentes ficheros de datos (CSV, JSON, Excel...). Tras importarlos, se aplicarán técnicas de visualización para extraer la máxima información posible de los distintos datasets.
+
+## DFP1_11122015 124700.csv
+
+### Importación del fichero
+
+#### Usar la herramienta de importación para previsualizar el resultado final. Compara las opciones base y readr
+
+A simple vista, se detectan dos diferencias principales, especialmente porque cada opción utiliza una herramienta distinta a la hora de leer los ficheros.
+
+Por un lado, **Import Dataset (base)** ha detectado automáticamente el separador necesario para este fichero, que se corresponde con el **tabulador**, mientras que **Import Dataset (readr)** no, y requiere modificarlo manualmente desde las distintas opciones que ofrece.
+
+Por otro lado, una vez seleccionado el separador correcto para la importación con `readr`, se ven claras diferencias respecto al formato que se ha utilizado para codificar la hora, que en `base` es **chr** y en `readr` es **hms**.
+
+#### Leer el fichero con read.csv y el parámetro stringsAsFactors=F.
+
+```{r} 
+# ruta relativa del fichero fname <- "data/DFP1_11122015 124700.csv"
+fname <- 'data/DFP1_11122015 124700.csv'
+Deposito <- read.csv(file = fname, stringsAsFactors = FALSE, sep = "\t")
+
+head(Deposito)
+```
+
+#### Convertir fecha y hora con as.POSIXlt y as.hms (hms library).
+
+Con la función `str()` mostramos un resumen de las distintas variables que lo componen y visualizamos el tipo de dato de cada una de ellas, especialmente, para identificar el tipo de `FECHA` y `HORA`.
+
+```{r} 
+str(Deposito)
+```
+Al igual que ocurría al importar con `base`, ambas variables se han codificado como carácteres, por lo que cualquier modificación sobre estas será como trabajar como strings, que no son los tipos correctos.
+
+Por ello, convertimos con las funciones indicadas en el enunciado.
+
+```{r} 
+library(hms)
+
+# conversión de la columna FECHA
+Deposito$FECHA <- as.POSIXlt(Deposito$FECHA, format = "%d/%m/%Y")
+
+# conversión de la columna HORA
+Deposito$HORA <- as.hms(Deposito$HORA)
+```
+
+Tras hacer la conversion, verificamos que los cambios se han aplicado correctamente.
+
+```{r} 
+str(Deposito)
+```
+#### Almacenar con save en una carpeta con nombre results dentro de la carpeta data.
+
+Desde R, creamos una subcarpeta dentro de **results** con `dir.create` y posteriormente, guardamos el nuevo dataset con las horas y fechas en formato correcto.
+
+```{r}
+dir.create("./data/results", showWarnings = F)
+save(Deposito, file = "./data/results/Deposito.RData")
+```
+
+### Inspección de los datos
+
+Al igual que lo usamos antes, `str()` muestra por consola un resumen del fichero, indicando las dimensiones, los nombres de las variables, sus tipos y algunos de sus valores.
+
+En este caso, contamos con un fichero de datos compuesto por 8887 observaciones y 5 variables que los caracterizan.
+
+```{r}
+str(Deposito)
+```
+
+La función `head()` muestra, por defecto, las 6 primeras instancias del dataset.
+
+```{r}
+head(Deposito)
+```
+
+Con `tail()` se visualizan, por defecto, las últimas 6 filas del conjunto de datos.
+
+```{r}
+tail(Deposito)
+```
+
+Segun ChatGPT, da error por la configuración de la plantilla. De todas formas, `summary()` mostraría informacion sobre cada variable según su tipo. Por ejemplo, para **Altura** indicaría metricas estadisticas como la media o la mediana.
+
+```{r}
+summary(Deposito)
+```
+
+## Transactions from a Bakery (Kaggle)
+
+Descargamos el fichero desde R
+
+```{r}
+url <- "https://www.kaggle.com/api/v1/datasets/download/akashdeepkuila/bakery"
+download.file(url, destfile = "/data", mode = "wb")
+```
+### Importación del fichero
+
+### Inspección de los datos
+
+## SPSS PsychBike.sav
+
+### Importación del fichero
+
+### Inspección de los datos
