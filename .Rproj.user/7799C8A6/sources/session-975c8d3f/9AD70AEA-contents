@@ -3,15 +3,15 @@ title: "Práctica 1. Importación de datos"
 author: "Marino Fernández Pérez"
 date: "`r Sys.Date()`"
 output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
   html_document:
     echo: true
     number_sections: true
     theme: lumen
     toc: true
-  pdf_document:
-    toc: true
-    toc_depth: 3
-    number_sections: true
   html_notebook:
     echo: true
     number_sections: true
@@ -534,7 +534,4 @@ iris_from <- fromJSON(filename)
 
 class(iris_read)
 class(iris_from)
-
-str(iris_read)
-str(iris_from)
 ```
