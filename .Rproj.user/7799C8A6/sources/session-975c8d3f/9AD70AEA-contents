@@ -322,9 +322,43 @@ Utilizando `summary()`, descatamos que no existe instancias vacias para los **It
 ```{r}
 summary(BreadBasket)
 ```
-
 ## SPSS PsychBike.sav
 
 ### Importación del fichero
 
+Para trabajar con archivos .sav, es necesario utilizar la libreria `haven`, que permite leer este tipo directamente.
+
+```{r}
+library(haven)
+
+filename <- "data/PsychBike.sav"
+PsychBike <- read_sav(filename)
+head(PsychBike)
+```
+Finalmente, guardamos el dataset como hemos hecho en los apartados anteriores.
+
+```{r}
+save(PsychBike, file = "data/results/PsychBike.RData")
+```
+
 ### Inspección de los datos
+
+En este caso, contamos con un fichero de datos compuesto por 2355 observaciones y 6 variables que los caracterizan.
+Cabe destacar que `hour` se ha importado correctamente como `hss`. 
+
+Además, parece que este tipo de dato mantiene el formato spss en la mayoria de sus variables. 
+
+```{r}
+str(PsychBike)
+```
+La función `head()` muestra, por defecto, las 6 primeras instancias del dataset. Una vez más, parece que el dataset esta ordenado o bien ordenado por conjuntos, ya que estas primeras comparten `hour`, `helmet` y `distance_from_kerb`.
+
+```{r}
+head(PsychBike)
+```
+
+Con `tail()` se visualizan, por defecto, las últimas 6 filas del conjunto de datos. En este caso, los valores de `hour`, `distance_from_kerb` y `helmet` son los mismos pero distintos a los mostrados por `head()`.
+
+```{r}
+tail(PsychBike)
+```
