@@ -1,0 +1,6 @@
+"0","summary(PsychBike)
+"
+"1","[1m[33mError[39m in `as.character()`:[22m
+[33m![39m Can't convert `x` <summaryDefault> to <character>.
+[90mRun `]8;;x-r-run:rlang::last_trace()rlang::last_trace()]8;;` to see where the error occurred.[39m
+"

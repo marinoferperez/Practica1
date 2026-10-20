@@ -322,9 +322,168 @@ Utilizando `summary()`, descatamos que no existe instancias vacias para los **It
 ```{r}
 summary(BreadBasket)
 ```
-
 ## SPSS PsychBike.sav
 
 ### Importación del fichero
+
+Para trabajar con archivos .sav, es necesario utilizar la libreria `haven`, que permite leer este tipo directamente.
+
+```{r}
+library(haven)
+
+filename <- "data/PsychBike.sav"
+PsychBike <- read_sav(filename)
+head(PsychBike)
+```
+Finalmente, guardamos el dataset como hemos hecho en los apartados anteriores.
+
+```{r}
+save(PsychBike, file = "data/results/PsychBike.RData")
+```
+
+### Inspección de los datos
+
+En este caso, contamos con un fichero de datos compuesto por 2355 observaciones y 6 variables que los caracterizan.
+Cabe destacar que `hour` se ha importado correctamente como `hss`. 
+
+Además, parece que este tipo de dato mantiene el formato spss en la mayoria de sus variables. 
+
+```{r}
+str(PsychBike)
+```
+La función `head()` muestra, por defecto, las 6 primeras instancias del dataset. Una vez más, parece que el dataset esta ordenado o bien ordenado por conjuntos, ya que estas primeras comparten `hour`, `helmet` y `distance_from_kerb`.
+
+```{r}
+head(PsychBike)
+```
+
+Con `tail()` se visualizan, por defecto, las últimas 6 filas del conjunto de datos. En este caso, los valores de `hour`, `distance_from_kerb` y `helmet` son los mismos pero distintos a los mostrados por `head()`.
+
+```{r}
+tail(PsychBike)
+```
+
+```{r}
+summary(PsychBike)
+```
+
+## iris.zip
+
+Para descargar y guardar el dataset, se repite el mismo procedimiento que se hizo con **Bakery**.
+
+```{r}
+url <- "https://archive.ics.uci.edu/static/public/53/iris.zip"
+download.file(url, destfile = "data/iris.zip", mode = "wb")
+```
+
+### Descomprimir el fichero
+
+Para descomprimir el fichero, se utiliza la funcion `unzip()`, con el parámetro **exdir** para indicar el lugar donde se descompondrá.
+
+```{r}
+unzip("data/iris.zip", exdir = "data")
+```
+
+## iris.data
+
+### Importación del fichero
+
+#### Utiliza la funcion read_table para importar los datos.
+
+Debido al formato de los datos en el dataset **iris.data**, especificamos la coma como separador.
+
+```{r}
+library(readr)
+filename <- "data/iris.data"
+
+iris <- read.table(filename, sep = ",")
+```
+
+Verificamos que se ha cargado como se esperaba.
+
+```{r}
+head(iris)
+```
+#### Cambia el nombre de las columnas por las que corresponda a la base datos (mirar la información en la página web).
+
+Modificamos el nombre de las columnas machacando el nombre actual de cada una de ellas, que se obtiene mediante la función `colnames()`.
+
+```{r}
+colnames(iris) <- c(
+  "sepal length", "sepal width",
+  "petal length", "petal width", "species"
+)
+
+# se comprueba que se ha modificado correctamente
+head(iris)
+```
+
+#### Guarda el data frame con save en la carpeta results.
+
+```{r}
+save(iris, file = "data/results/iris")
+```
+
+### Inspección de los datos
+
+En este caso, contamos con un fichero de datos compuesto por 150 observaciones y 5 variables que los caracterizan.
+Todas ellas son numéricas a excepción de `species`, que son conjuntos de caracteres. 
+
+```{r}
+str(iris)
+```
+Los primeros registros pertenecen a la especie Iris-setosa, mientras que los últimos pertenecen a Iris-virginica. Además, se pueden ver diferencias en las características de ambas especies, concretamente en la longitud y anchura de los pétalos, que son  mayores en Iris-virginica.
+
+Cabe destacar que, al igual que en el dataset, las observaciones parecen estar agrupadas por especies. 
+
+```{r}
+head(iris)
+tail(iris)
+```
+
+La función summary() proporciona los principales estadísticos descriptivos de las cuatro variables numéricas.
+
+Observamos que la longitud media de los sépalos es de 5.843 cm, mientras que su anchura media es de 3.054 cm. Por otro lado, los pétalos presentan una longitud media de 3.759 cm y una anchura media de 1.199 cm.
+
+Destaca especialmente la variabilidad en la longitud de los pétalos, cuyos valores oscilan entre 1 y 6.9 cm, con una diferencia considerable entre el primer y tercer cuartil (1.6 y 5.1 cm). Esto sugiere que esta característica podría ser útil para distinguir entre especies.
+
+Finalmente, la variable species contiene 3 categorías diferentes, sin cadenas vacías, correspondientes a las tres especies de iris presentes en el conjunto de datos.
+
+
+```{r}
+summary(iris)
+```
+## FileCodificado.json
+
+### Importar el fichero FileCodificado.json
+
+
+#### Abrir el fichero FileCodificado.json con un editor de texto (el de RStudio vale) para ver qué contiene. Comprobaremos que se puede leer e interepretar con facilidad.
+
+#### Importar el fichero a R con read_json. Observar la importancia del parámetro simplifyVector.
+
+```{r}
+library(jsonlite)
+
+filename <- 'data/FileCodificado.json'
+
+file_codificado <- read_json(filename, simplifyVector = FALSE)
+
+# importar con simplificacion
+file_codificado_simp <- read_json(filename, simplifyVector = TRUE)
+
+# se comparan los dos tipos de
+str(file_codificado)
+str(file_codificado_simp)
+```
+
+#### Almacenar los resultados en FileCodificado.RData en la carpeta results.
+
+
+
+
+```
+
+
 
 ### Inspección de los datos

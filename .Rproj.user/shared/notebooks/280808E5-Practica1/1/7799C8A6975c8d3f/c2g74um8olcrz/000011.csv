@@ -1,0 +1,2 @@
+"0","FileCodificado <- read_json(filename, simplifyVector = TRUE) "
+"0","save(FileCodificado, file = ""data/results/FileCodificado.RData"")"

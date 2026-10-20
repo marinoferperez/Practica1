@@ -3,7 +3,7 @@
     "path": "~/Desktop/master/c2627/asigs/aed/practs/ImportaFicheros/Practica1.Rmd",
     "project_path": "Practica1.Rmd",
     "type": "r_markdown",
-    "hash": "61350115",
+    "hash": "0",
     "contents": "",
     "dirty": true,
     "created": 1792491908225.0,
@@ -12,8 +12,8 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "358,0",
-        "scrollLine": "353",
+        "cursorPosition": "513,23",
+        "scrollLine": "513",
         "rmdVisualMode": "false",
         "rmdVisualWrapConfigured": "true",
         "docOutlineVisible": "1",
@@ -22,11 +22,11 @@
         "last_setup_crc32": "975c8d3f280f463e"
     },
     "folds": "",
-    "lastKnownWriteTime": 1792495913,
+    "lastKnownWriteTime": 1792497974,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1792496597093,
+    "last_content_update": 1792498605473,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -1,0 +1,7 @@
+"0","url <- ""https://archive.ics.uci.edu/static/public/53/iris.zip"""
+"0","download.file(url, destfile = ""data/iris.zip"", mode = ""wb"")"
+"2","trying URL 'https://archive.ics.uci.edu/static/public/53/iris.zip'
+"
+"2","downloaded 3738 bytes
+
+"
