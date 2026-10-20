@@ -443,14 +443,10 @@ head(iris)
 tail(iris)
 ```
 
-La función summary() proporciona los principales estadísticos descriptivos de las cuatro variables numéricas.
+La función `summary()` proporciona los principales estadísticos descriptivos de las cuatro variables numéricas.
+Observamos que la longitud media de los sépalos es de 5.843cm, mientras que su anchura media es de 3.054cm. Por otro lado, los pétalos presentan una longitud media de 3.759cm y una anchura media de 1.199cm.
 
-Observamos que la longitud media de los sépalos es de 5.843 cm, mientras que su anchura media es de 3.054 cm. Por otro lado, los pétalos presentan una longitud media de 3.759 cm y una anchura media de 1.199 cm.
-
-Destaca especialmente la variabilidad en la longitud de los pétalos, cuyos valores oscilan entre 1 y 6.9 cm, con una diferencia considerable entre el primer y tercer cuartil (1.6 y 5.1 cm). Esto sugiere que esta característica podría ser útil para distinguir entre especies.
-
-Finalmente, la variable species contiene 3 categorías diferentes, sin cadenas vacías, correspondientes a las tres especies de iris presentes en el conjunto de datos.
-
+Cabe destacar que la longitud de los pétalos cuenta con valores bastante distintos, que van desde 1 hasta 6.9 cm.
 
 ```{r}
 summary(iris)
